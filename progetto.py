@@ -1,13 +1,14 @@
+# attamento semplice che implementa il K leaf 
+# non identifica ancora il percorso "Assoluto minimo" ma quello ottenuto mediante concatenazione di percorsi minimi tra quelli proposti patendo dalla radice
+
 from collections import defaultdict
+from ctypes import sizeof
 import heapq
 
 # heapq : priority queue algorithm.
-#prova test update 
-
-#pelle
 
 
-def mst_prim(graph, starting_vertex):
+def mst_prim(graph, starting_vertex, k):
     # defaultdict restituisce set() nel caso in cui la chiave non e' nel dizionario
     # lista di adiacenza
     mst = defaultdict(set)
@@ -21,15 +22,23 @@ def mst_prim(graph, starting_vertex):
     # crea coda heap basata su min costo vertici
     heapq.heapify(edges)
     
+    n_elem = 0
     while edges:
         # estaggo il minimo
         cost, frm, to = heapq.heappop(edges)
         if to not in visited:
             # aggiungi nodo ai visitati
             visited.add(to)
+           
+
             # esapndi albero
             mst[frm].add(to)
             # aggiungi archi incidenti al nuovo nodo
+
+            # verifica se abbiamo raggiunto il numero k di foglie
+            if  len(mst) == k :
+                 break
+
             for to_next, cost in graph[to].items():
                 # tenedo conto dei gia' visitati
                 if to_next not in visited:
@@ -57,4 +66,4 @@ example_graph1 = {
     'G': {'F': 1},
     'H': {'B': 10},
 }
-print(mst_prim(example_graph,'F'))
+print(mst_prim(example_graph1,'A',3))
