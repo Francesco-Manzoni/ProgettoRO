@@ -22,7 +22,7 @@ def mst_prim(graph, starting_vertex, k):
     # crea coda heap basata su min costo vertici
     heapq.heapify(edges)
     
-    n_elem = 0
+
     while edges:
         # estaggo il minimo
         cost, frm, to = heapq.heappop(edges)
