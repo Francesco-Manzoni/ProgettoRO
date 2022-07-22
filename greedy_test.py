@@ -9,7 +9,7 @@ k = 30
 file = open("lcmstr300.10")
 arr = np.genfromtxt(file, delimiter=' ', dtype=None)
 graph = []
-for i in range(n):
+for i in range(n):  # range crea lista di numeri da 0 a n-1
     data = {}
     for j in range(n):
         data[j] = arr[i][j]
