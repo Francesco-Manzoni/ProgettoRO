@@ -29,3 +29,12 @@ nx.draw(mst, pos, with_labels=True)
 labels = nx.get_edge_attributes(mst, 'weight')
 nx.draw_networkx_edge_labels(mst, pos, edge_labels=labels)
 plt.show()
+
+
+# per trovare nodi foglia
+def find_leaf(G):
+    leaf_nodes = []
+    for node in g.nodes():
+        if nx.degree(g, node) == 1:
+            leaf_nodes.append(node)
+    return leaf_nodes
