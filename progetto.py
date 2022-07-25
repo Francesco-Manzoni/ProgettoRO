@@ -66,4 +66,4 @@ example_graph1 = {
     'G': {'F': 1},
     'H': {'B': 10},
 }
-print(mst_prim(example_graph1,'A',3))
+print(mst_prim(example_graph1,'A',2))

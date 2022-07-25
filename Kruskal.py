@@ -64,13 +64,18 @@ class Graph:
 		parent = []
 		rank = []
 
-		# Create V subsets with single elements
+		# Create V subsets with single elements !!!!!!!!!!!!!!!!
 		for node in range(self.V):
 			parent.append(node)
 			rank.append(0)
 
-		# Number of edges to be taken is equal to V-1
+		# Number of edges to be taken is equal to V-1 !!!!!!!!!!!!!!!!!
 		while e < self.V - 1:
+
+####################################
+            # Step 1 1/2
+            #bisogna partire dalla radice individuata o meglio mettere in prima posizione il grafo radice con costo minore
+####################################
 
 			# Step 2: Pick the smallest edge and increment
 			# the index for next iteration

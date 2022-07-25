@@ -3,6 +3,19 @@ from scipy.spatial.distance import pdist, squareform
 import matplotlib.pyplot as plt
 
 
+#algoritmo che conta il numero di foglie
+#def leaves_num(T):
+   # scorre l'albero con un ciclo for è per ogni percorso dal nodo cerca di scorrere lungo l'albero
+   # salva su una variabile "from" il nodo da cui arriva e se i nodi ad essa collegati sono solo quello di arrivo allora è una foglia
+
+def connected()
+
+    for
+    collegamenti = [
+        (cost, to)
+        for to, cost in graph[nodefrom].items() 
+    ]
+
 def minimum_spanning_tree(X, copy_X=True):
     """X are edge weights of fully connected graph"""
     if copy_X:
@@ -37,6 +50,7 @@ def minimum_spanning_tree(X, copy_X=True):
 
 def test_mst():
     P = np.random.uniform(size=(50, 2))
+    print(P)
 
     X = squareform(pdist(P))
     edge_list = minimum_spanning_tree(X)
@@ -47,6 +61,25 @@ def test_mst():
         plt.plot([P[i, 0], P[j, 0]], [P[i, 1], P[j, 1]], c='r')
     plt.show()
 
+graph = {
+    'A': {'B': 2, 'C': 3},
+    'B': {'A': 2, 'C': 1, 'D': 1, 'E': 4},
+    'C': {'A': 3, 'B': 1, 'F': 5},
+    'D': {'B': 1, 'E': 1},
+    'E': {'B': 4, 'D': 1, 'F': 1},
+    'F': {'C': 5, 'E': 1, 'G': 1},
+    'G': {'F': 1},
+}
 
 if __name__ == "__main__":
+    len = 100000000 #infinity
+
+    nodefrom = 'A'
+
+
+
+    print(collegamenti)
+    
     test_mst()
+
+
