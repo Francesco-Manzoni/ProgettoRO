@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import random
 # https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.tree.mst.minimum_spanning_tree.html
 # https://networkx.org/documentation/stable/tutorial.html
 
@@ -115,15 +116,15 @@ G.add_edge(5, 7, weight=50)
 
 # 6
 G.add_edge(6, 7, weight=7) """
-
+positions = {1:(4,1), 2:(2,1), 3:(3,3),7:(4, 6),6:(5, 4), 4:(6, 1),5:(7, 4)}
 G = nx.Graph()
-G.add_node(1)
-G.add_node(2)
-G.add_node(3)
-G.add_node(7)
-G.add_node(6)
-G.add_node(4)
-G.add_node(5)
+G.add_node(1, pos=(4, 1))
+G.add_node(2, pos=(2, 1))
+G.add_node(3, pos=(3, 3))
+G.add_node(7, pos=(4, 6))
+G.add_node(6, pos=(5, 4))
+G.add_node(4, pos=(6, 1))
+G.add_node(5, pos=(7, 4))
 
 # 1
 G.add_edge(1, 2, weight=12)
@@ -178,14 +179,17 @@ print(mst)
 
 print(nx.tree.branching_weight(mst))
 
-T = LCMST(G, 5)
+
+T = LCMST(G, 4)
 print(T)
 print(find_leaf(T))
-""" pos = nx.get_node_attributes(T, 'pos')
-nx.draw(T, pos, with_labels=True)
+
+
+pos = nx.get_node_attributes(T, 'pos')
+nx.draw(T, pos = positions, with_labels=True)
 labels = nx.get_edge_attributes(T, 'weight')
-nx.draw_networkx_edge_labels(T, pos, edge_labels=labels)
-plt.show() """
+nx.draw_networkx_edge_labels(T,pos = positions, edge_labels=labels)
+plt.show()
 
 
 print(nx.tree.branching_weight(T))
