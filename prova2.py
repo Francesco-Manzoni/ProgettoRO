@@ -116,7 +116,7 @@ G.add_edge(5, 7, weight=50)
 
 # 6
 G.add_edge(6, 7, weight=7) """
-positions = {1:(4,1), 2:(2,1), 3:(3,3),7:(4, 6),6:(5, 4),4:(6, 1),5:(7, 4)}
+positions = {1:(4,1), 2:(2,1),3:(3,3),4:(6, 1),5:(7, 4),6:(5, 4),7:(4, 6)}
 all_nodes= [1,2,3,4,5,6,7]
 G = nx.Graph()
 G.add_node(1, pos=(4, 1))
@@ -169,7 +169,7 @@ labels = nx.get_edge_attributes(G, 'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 plt.show()
 
-# MST
+""" # MST
 mst = nx.minimum_spanning_tree(G)
 pos = nx.get_node_attributes(mst, 'pos')
 nx.draw(mst, pos, with_labels=True)
@@ -178,16 +178,16 @@ nx.draw_networkx_edge_labels(mst, pos, edge_labels=labels)
 # plt.show()
 print(mst)
 
-print(nx.tree.branching_weight(mst))
+print(nx.tree.branching_weight(mst)) """
 
 
-T = LCMST(G, 4)
+T = LCMST(G, 5)
 print(T)
 print(find_leaf(T))
 
-for element in all_nodes:
+""" for element in all_nodes:
     if element not in find_leaf(T):
-        del positions[element]
+        del positions[element] """
 
 pos = nx.get_node_attributes(T, 'pos')
 nx.draw(T, pos = positions, with_labels=True)
