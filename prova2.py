@@ -80,7 +80,6 @@ G.add_node(7, pos=(4, 6))
 G.add_node(6, pos=(5, 4))
 G.add_node(4, pos=(6, 1))
 G.add_node(5, pos=(7, 4))
-
 # 1
 G.add_edge(1, 2, weight=12)
 G.add_edge(1, 7, weight=12)
@@ -88,32 +87,26 @@ G.add_edge(1, 3, weight=10)
 G.add_edge(1, 4, weight=50)
 G.add_edge(1, 5, weight=50)
 G.add_edge(1, 6, weight=50)
-
-
 # 2
 G.add_edge(2, 4, weight=12)
 G.add_edge(2, 3, weight=8)
 G.add_edge(2, 5, weight=50)
 G.add_edge(2, 6, weight=50)
 G.add_edge(2, 7, weight=50)
-
 # 3
 G.add_edge(3, 4, weight=11)
 G.add_edge(3, 6, weight=3)
 G.add_edge(3, 7, weight=9)
 G.add_edge(3, 5, weight=50)
 G.add_edge(3, 6, weight=50)
-
 # 4
 G.add_edge(4, 5, weight=10)
 G.add_edge(4, 6, weight=11)
 G.add_edge(4, 7, weight=50)
-
 # 5
 G.add_edge(5, 7, weight=9)
 G.add_edge(5, 6, weight=6)
 G.add_edge(5, 7, weight=50)
-
 # 6
 G.add_edge(6, 7, weight=7) """
 positions = {1:(4,1), 2:(2,1),3:(3,3),4:(6, 1),5:(7, 4),6:(5, 4),7:(4, 6)}
@@ -177,11 +170,10 @@ labels = nx.get_edge_attributes(mst, 'weight')
 nx.draw_networkx_edge_labels(mst, pos, edge_labels=labels)
 # plt.show()
 print(mst)
-
 print(nx.tree.branching_weight(mst)) """
 
 
-T = LCMST(G, 5)
+T = LCMST(G, 4)
 print(T)
 print(find_leaf(T))
 

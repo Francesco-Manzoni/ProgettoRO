@@ -8,10 +8,11 @@ import heapq
 # heapq : priority queue algorithm.
 
 
-def mst_prim(graph, starting_vertex, k):
+def mst_prim(graph, starting_vertex):
     # defaultdict restituisce set() nel caso in cui la chiave non e' nel dizionario
     # lista di adiacenza
     mst = defaultdict(set)
+    print(mst)
     # all'inizio apro solo starting_vertex
     visited = set([starting_vertex]) #'F':{}
     # archi incidenti allo starting_vertex
