@@ -13,7 +13,7 @@ import heapq
 
 # heapq : priority queue algorithm.
 
-#------------------------------
+# ------------------------------
 
 # mst prim di Sack
 def mst_prim(graph, starting_vertex):
@@ -21,17 +21,15 @@ def mst_prim(graph, starting_vertex):
     # lista di adiacenza
     mst = defaultdict(set)
 
-    
     # all'inizio apro solo starting_vertex
-    visited = set([starting_vertex]) #'F':{}
+    visited = set([starting_vertex])  # 'F':{}
     # archi incidenti allo starting_vertex
     edges = [
         (cost, starting_vertex, to)
-        for to, cost in graph[starting_vertex].items() 
+        for to, cost in graph[starting_vertex].items()
     ]
     # crea coda heap basata su min costo vertici
     heapq.heapify(edges)
-    
 
     while edges:
         # estaggo il minimo
@@ -46,11 +44,14 @@ def mst_prim(graph, starting_vertex):
             for to_next, cost in graph[to].items():
                 # tenedo conto dei gia' visitati
                 if to_next not in visited:
-                    heapq.heappush(edges, (cost, to, to_next)) #aggiungo arco ulteriore valutato alla heap che si riordina per costo
+                    # aggiungo arco ulteriore valutato alla heap che si riordina per costo
+                    heapq.heappush(edges, (cost, to, to_next))
 
     return mst
 
-#------------------------------
+# ------------------------------
+
+
 def find_leaf(g):
     leaf_nodes = []
     for node in g.nodes():
@@ -76,20 +77,20 @@ def nearest_node(V, w):
     return u
 
 
-def plotGraph(Grafo,testo):
+def plotGraph(Grafo, testo):
     pos = nx.get_node_attributes(Grafo, 'pos')
     plt.title(testo)
-    nx.draw(Grafo, pos = positions, with_labels=True)
+    nx.draw(Grafo, pos=positions, with_labels=True)
     labels = nx.get_edge_attributes(Grafo, 'weight')
-    nx.draw_networkx_edge_labels(Grafo,pos = positions, edge_labels=labels)
-    plt.show()   
+    nx.draw_networkx_edge_labels(Grafo, pos=positions, edge_labels=labels)
+    plt.show()
     print(nx.tree.branching_weight(Grafo))
 
 
 def LCMST(V, k):
-    T = nx.minimum_spanning_tree(V,algorithm='prim')
-    
-    while len(find_leaf(T)) < k:
+    T = nx.minimum_spanning_tree(V, algorithm='prim')
+
+    while len(find_leaf(T)) != k:
         L = find_leaf(T)
 
         max_len = float('inf')
@@ -100,12 +101,15 @@ def LCMST(V, k):
             # sono tutte le foglie di partenza + un nodo (che non era foglia)
             L1.append(v)
 
-            T1 = nx.minimum_spanning_tree(remove_nodes(V, L1),algorithm='prim')
+            T1 = nx.minimum_spanning_tree(
+                remove_nodes(V, L1), algorithm='prim')
             for w in L1:
                 # find nearest node in remove_nodes(V, L1) from w
                 # remove w from L1
                 L1_temp = L1.copy()
                 L1_temp.remove(w)
+                A = remove_nodes(V, L1_temp).nodes()
+
                 u = nearest_node(remove_nodes(V, L1_temp), w)
 
                 T1.add_node(u)
@@ -115,14 +119,15 @@ def LCMST(V, k):
             if nx.tree.branching_weight(T1) < max_len:
                 max_len = nx.tree.branching_weight(T1)
                 T = T1.copy()
-                plotGraph(T,'Step con nodo '+ str(u))
-                
+                # plotGraph(T, 'Dentro loop con foglie ' +
+                #     str(len(find_leaf(T))) + ' peso ' + str(nx.tree.branching_weight(T)))
+
     return T
 
 
-
-positions = {1:(4,1), 2:(2,1),3:(3,3),4:(6, 1),5:(7, 4),6:(5, 4),7:(4, 6)}
-all_nodes= [1,2,3,4,5,6,7]
+positions = {1: (4, 1), 2: (2, 1), 3: (3, 3), 4: (
+    6, 1), 5: (7, 4), 6: (5, 4), 7: (4, 6)}
+all_nodes = [1, 2, 3, 4, 5, 6, 7]
 
 
 G = nx.Graph()
@@ -156,7 +161,6 @@ G.add_edge(3, 6, weight=3)
 G.add_edge(3, 7, weight=9)
 G.add_edge(3, 5, weight=50)
 
-
 # 4
 G.add_edge(4, 5, weight=10)
 G.add_edge(4, 6, weight=11)
@@ -169,32 +173,25 @@ G.add_edge(5, 6, weight=6)
 
 # 6
 G.add_edge(6, 7, weight=7)
-plotGraph(G,'Grafo iniziale')
+plotGraph(G, 'Grafo iniziale')
 
 
-
-#stavo implementando un convertitore di grafo per passare al formato di Sack
+# stavo implementando un convertitore di grafo per passare al formato di Sack
 def Converti_formato_grafo(grafo):
     X = grafo.adj
-    #accedo al Nested Dict
+    # accedo al Nested Dict
     tmp_Graph = {}
-    for i in X.keys():   
-        for j in X[i].keys():   
+    for i in X.keys():
+        for j in X[i].keys():
             for z in X[i][j].keys():
-             h=(X[i][j]['weight'])
+                h = (X[i][j]['weight'])
 
     return tmp_Graph
-            
-            
-            
-            
 
 
 # Leaf Constrained Minimum Spannning Tree
-
-T = LCMST(G, 6)
+T = LCMST(G, 5)
 print(T)
 print(find_leaf(T))
-plotGraph(T,'Finale')
-
-
+plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
+          ' peso ' + str(nx.tree.branching_weight(T)))
