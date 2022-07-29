@@ -173,7 +173,7 @@ G.add_edge(5, 6, weight=6)
 
 # 6
 G.add_edge(6, 7, weight=7)
-plotGraph(G, 'Grafo iniziale')
+
 
 
 # stavo implementando un convertitore di grafo per passare al formato di Sack
@@ -181,17 +181,22 @@ def Converti_formato_grafo(grafo):
     X = grafo.adj
     # accedo al Nested Dict
     tmp_Graph = {}
+    tmp = {}
     for i in X.keys():
+        
         for j in X[i].keys():
             for z in X[i][j].keys():
                 h = (X[i][j]['weight'])
-
+                #print(str(i) + ": " + str(j) + " " + str(h))
+                tmp[j] = h
+                tmp_Graph[i]=tmp
+            
     return tmp_Graph
 
 
-# Leaf Constrained Minimum Spannning Tree
-T = LCMST(G, 5)
-print(T)
-print(find_leaf(T))
-plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
-          ' peso ' + str(nx.tree.branching_weight(T)))
+TC= Converti_formato_grafo(G)
+print(G.adj)
+print(TC)
+
+#{1: {2: {'weight': 12}, 7: {'weight': 12}, 3: {'weight': 10}, 4: {'weight': 50}, 5: {'weight': 50}, 6: {'weight': 50}}, 2: {1: {'weight': 12}, 4: {'weight': 12}, 3: {'weight': 8}, 5: {'weight': 50}, 6: {'weight': 50}, 7: {'weight': 50}}, 3: {1: {'weight': 10}, 2: {'weight': 8}, 4: {'weight': 11}, 6: {'weight': 3}, 7: {'weight': 9}, 5: {'weight': 50}}, 7: {1: {'weight': 12}, 2: {'weight': 50}, 3: {'weight': 9}, 4: {'weight': 50}, 5: {'weight': 9}, 6: {'weight': 7}}, 6: {1: {'weight': 50}, 2: {'weight': 50}, 3: {'weight': 3}, 4: {'weight': 11}, 5: {'weight': 6}, 7: {'weight': 7}}, 4: {1: {'weight': 50}, 2: {'weight': 12}, 3: {'weight': 11}, 5: {'weight': 10}, 6: {'weight': 11}, 7: {'weight': 50}}, 5: {1: {'weight': 50}, 2: {'weight': 50}, 3: {'weight': 50}, 4: {'weight': 10}, 7: {'weight': 9}, 6: {'weight': 6}}}
+#{'A': {'B': 2, 'C': 3}, 'B': {'A': 2, 'C': 1, 'D': 1, 'E': 4, 'H': 10}, 'C': {'A': 3, 'B': 1, 'F': 5}, 'D': {'B': 1, 'E': 1}, 'E': {'B': 4, 'D': 1, 'F': 1}, 'F': {'C': 5, 'E': 1, 'G': 1}, 'G': {'F': 1}, 'H': {'B': 10}}

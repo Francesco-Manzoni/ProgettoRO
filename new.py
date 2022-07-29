@@ -129,8 +129,7 @@ def Kmin(Grafo,k):
 
 
 
-positions = {1: (5, 2), 2: (2, 1), 3: (3, 3), 4: (
-    6, 1), 5: (7, 4), 6: (5, 4), 7: (4, 6)}
+positions = {1: (5, 2), 2: (2, 1), 3: (3, 3), 4: (6, 1), 5: (7, 4), 6: (5, 4), 7: (4, 6)}
 all_nodes = [1, 2, 3, 4, 5, 6, 7]
 
 
@@ -200,3 +199,5 @@ print(T)
 print(find_leaf(T))
 plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
           ' peso ' + str(nx.tree.branching_weight(T)))
+
+
