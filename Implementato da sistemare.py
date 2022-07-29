@@ -155,7 +155,7 @@ G.add_edge(3, 4, weight=11)
 G.add_edge(3, 6, weight=3)
 G.add_edge(3, 7, weight=9)
 G.add_edge(3, 5, weight=50)
-G.add_edge(3, 6, weight=50)
+
 
 # 4
 G.add_edge(4, 5, weight=10)
@@ -165,7 +165,7 @@ G.add_edge(4, 7, weight=50)
 # 5
 G.add_edge(5, 7, weight=9)
 G.add_edge(5, 6, weight=6)
-G.add_edge(5, 7, weight=50)
+
 
 # 6
 G.add_edge(6, 7, weight=7)

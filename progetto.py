@@ -12,7 +12,7 @@ def mst_prim(graph, starting_vertex):
     # defaultdict restituisce set() nel caso in cui la chiave non e' nel dizionario
     # lista di adiacenza
     mst = defaultdict(set)
-    print(mst)
+    
     # all'inizio apro solo starting_vertex
     visited = set([starting_vertex]) #'F':{}
     # archi incidenti allo starting_vertex
@@ -36,9 +36,7 @@ def mst_prim(graph, starting_vertex):
             mst[frm].add(to)
             # aggiungi archi incidenti al nuovo nodo
 
-            # verifica se abbiamo raggiunto il numero k di foglie
-            if  len(mst) == k :
-                 break
+       
 
             for to_next, cost in graph[to].items():
                 # tenedo conto dei gia' visitati
@@ -67,4 +65,4 @@ example_graph1 = {
     'G': {'F': 1},
     'H': {'B': 10},
 }
-print(mst_prim(example_graph1,'A',2))
+print(mst_prim(example_graph1,'A'))
