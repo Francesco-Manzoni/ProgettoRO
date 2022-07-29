@@ -10,6 +10,49 @@ import heapq
 # ------------------------------
 
 
+def mst_prim(GRAFO, starting_vertex):
+    graph = GRAFO.adj._atlas
+    # defaultdict restituisce set() nel caso in cui la chiave non e' nel dizionario
+    # lista di adiacenza
+    mst = defaultdict(lambda: defaultdict(dict))
+
+    # mst = {}
+
+    # all'inizio apro solo starting_vertex
+    visited = set([starting_vertex])  # 'F':{}
+    # archi incidenti allo starting_vertex
+    edges = [
+        (cost['weight'], starting_vertex, to)
+        for to, cost in graph[starting_vertex].items()
+    ]
+    # crea coda heap basata su min costo vertici
+    heapq.heapify(edges)
+
+    while edges:
+        # estaggo il minimo
+        cost, frm, to = heapq.heappop(edges)
+        if to not in visited:
+            # aggiungi nodo ai visitati
+            visited.add(to)
+
+            # esapndi albero
+
+            mst[frm][to]['weight'] = cost
+            # mst[frm].add({to: {'weight': cost}})
+            # mst[frm].add(to)
+            # mst[frm][to].add('weight': cost)
+
+            # aggiungi archi incidenti al nuovo nodo
+
+            for to_next, cost in graph[to].items():
+                # tenedo conto dei gia' visitati
+                if to_next not in visited:
+                    # aggiungo arco ulteriore valutato alla heap che si riordina per costo
+                    heapq.heappush(edges, (cost['weight'], to, to_next))
+
+    return mst
+
+
 def xor(x, y):
     return bool((x and not y) or (not x and y))
 
@@ -113,10 +156,11 @@ def plotGraph(Grafo, testo):
     print(nx.tree.branching_weight(Grafo))
 
 
-def Kmin(Grafo, k):
-    T = nx.minimum_spanning_tree(Grafo, algorithm='prim')
+def Kmin(Grafo, k, start_v):
+    # T = nx.minimum_spanning_tree(Grafo, algorithm='prim')
+    T = nx.Graph(mst_prim(Grafo, start_v))
     num_leaves = len(find_leaf(T))
-    plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
+    plotGraph(T, 'MST :' + str(start_v))
 
     while (num_leaves > k):
         # ricerco la connessione che ha il valore minore e collego gli archi
@@ -125,7 +169,7 @@ def Kmin(Grafo, k):
         num_leaves = len(find_leaf(T))
         print(num_leaves)
 
-        plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
+        #plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
 
     return T
 
@@ -137,6 +181,7 @@ all_nodes = [1, 2, 3, 4, 5, 6, 7]
 
 G = nx.Graph()
 G.add_node(1, pos=(5, 2))
+G.add_node(1, pos=(4, 1))
 G.add_node(2, pos=(2, 1))
 G.add_node(3, pos=(3, 3))
 G.add_node(7, pos=(4, 6))
@@ -144,11 +189,10 @@ G.add_node(6, pos=(5, 4))
 G.add_node(4, pos=(6, 1))
 G.add_node(5, pos=(7, 4))
 
-
 # 1
-G.add_edge(1, 2, weight=15)
-G.add_edge(1, 7, weight=18)
-G.add_edge(1, 3, weight=8)
+G.add_edge(1, 2, weight=12)
+G.add_edge(1, 7, weight=12)
+G.add_edge(1, 3, weight=10)
 G.add_edge(1, 4, weight=50)
 G.add_edge(1, 5, weight=50)
 G.add_edge(1, 6, weight=50)
@@ -189,13 +233,14 @@ G.add_edge(8, 5, weight=50)
 G.add_edge(8, 6, weight=50)
 G.add_edge(8, 1, weight=10) """
 
-plotGraph(G, 'Grafo iniziale')
+# plotGraph(G, 'Grafo iniziale')
 
 
 # Leaf Constrained Minimum Spannning Tree
 
-T = Kmin(G, 3)
-print(T)
-print(find_leaf(T))
-plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
-          ' peso ' + str(nx.tree.branching_weight(T)))
+for i in range(1, 7):
+    T = Kmin(G, 3, i)
+    print(T)
+    print(find_leaf(T))
+# plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
+#          ' peso ' + str(nx.tree.branching_weight(T)))

@@ -23,8 +23,9 @@ def mst_prim(GRAFO, starting_vertex):
     graph = GRAFO.adj._atlas
     # defaultdict restituisce set() nel caso in cui la chiave non e' nel dizionario
     # lista di adiacenza
-    #mst = defaultdict(set)
-    mst = {}
+    mst = defaultdict(lambda: defaultdict(dict))
+
+    #mst = {}
 
     # all'inizio apro solo starting_vertex
     visited = set([starting_vertex])  # 'F':{}
@@ -44,7 +45,8 @@ def mst_prim(GRAFO, starting_vertex):
             visited.add(to)
 
             # esapndi albero
-            mst[frm] = {to: {'weight': cost}}
+
+            mst[frm][to]['weight'] = cost
             #mst[frm].add({to: {'weight': cost}})
             # mst[frm].add(to)
             # mst[frm][to].add('weight': cost)
