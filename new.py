@@ -55,26 +55,41 @@ def shortest_connection_leaves(N):
                 node_con_f = nearest_node(N, f)
                # verifico se il nodo adiacente è connesso almeno a 2 nodi
                 if (nx.degree(N, node_con_f) > 2):
-                    peso_partenza = peso_partenza = G.get_edge_data(f, node_con_f)[
-                        'weight']
+                    peso_partenza = G.get_edge_data(f, node_con_f)['weight']
                 else:
-                    peso_partenza = 0
+                    peso_partenza = float('inf')
 
                # --------------------------------------
                 node_con_w = nearest_node(N, w)
                 # verifico se il nodo adiacente è connesso almeno a 2 nodi
                 if (nx.degree(N, node_con_w) > 2):
-                    peso_arrivo = G.get_edge_data(f, node_con_w)['weight']
+                    peso_arrivo = G.get_edge_data(w, node_con_w)['weight']
                 else:
-                    peso_arrivo = 0
-                if(peso_arrivo != 0 or peso_partenza != 0):
-                    peso_tot = peso_tmp - max(peso_partenza, peso_arrivo)
+                    peso_arrivo = float('inf')
+
+                if(peso_arrivo != float('inf') and peso_partenza != float('inf')):
+                    peso_tot = peso_tmp + min(peso_partenza, peso_arrivo)
                     if(peso_tot < min_weight):
                         min_weight = peso_tot
                         nodo_partenza = f
                         nodo_arrivo = w
 
                         if(peso_partenza >= peso_arrivo):
+                            to_rem_start = f
+                            to_remove = nearest_node(N, f)
+                        else:
+                            to_rem_start = w
+                            to_remove = nearest_node(N, w)
+
+                if(xor(peso_arrivo != float('inf'), peso_partenza != float('inf'))):
+                    peso_tot = peso_tmp + min(peso_partenza, peso_arrivo)
+
+                    if(peso_tot < min_weight):
+                        min_weight = peso_tot
+                        nodo_partenza = f
+                        nodo_arrivo = w
+
+                        if(peso_arrivo == float('inf')):
                             to_rem_start = nodo_partenza
                             to_remove = nearest_node(N, nodo_partenza)
                         else:
@@ -131,9 +146,9 @@ G.add_node(5, pos=(7, 4))
 
 
 # 1
-G.add_edge(1, 2, weight=12)
-G.add_edge(1, 7, weight=12)
-G.add_edge(1, 3, weight=1)
+G.add_edge(1, 2, weight=15)
+G.add_edge(1, 7, weight=18)
+G.add_edge(1, 3, weight=8)
 G.add_edge(1, 4, weight=50)
 G.add_edge(1, 5, weight=50)
 G.add_edge(1, 6, weight=50)
