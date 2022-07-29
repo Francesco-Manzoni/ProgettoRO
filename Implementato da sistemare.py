@@ -90,12 +90,13 @@ def plotGraph(Grafo, testo):
 def LCMST(V, k):
     T = nx.minimum_spanning_tree(V, algorithm='prim')
 
-    while len(find_leaf(T)) != k:
+    while len(find_leaf(T)) < k:
         L = find_leaf(T)
 
         max_len = float('inf')
 
         V_L = remove_nodes(V, L)
+
         for v in V_L:
             L1 = L.copy()
             # sono tutte le foglie di partenza + un nodo (che non era foglia)
@@ -119,8 +120,8 @@ def LCMST(V, k):
             if nx.tree.branching_weight(T1) < max_len:
                 max_len = nx.tree.branching_weight(T1)
                 T = T1.copy()
-                # plotGraph(T, 'Dentro loop con foglie ' +
-                #     str(len(find_leaf(T))) + ' peso ' + str(nx.tree.branching_weight(T)))
+                plotGraph(T, 'Dentro loop con foglie ' + str(len(find_leaf(T))
+                                                             ) + ' peso ' + str(nx.tree.branching_weight(T)))
 
     return T
 
@@ -189,8 +190,19 @@ def Converti_formato_grafo(grafo):
     return tmp_Graph
 
 
+# MST
+mst = nx.minimum_spanning_tree(G)
+pos = nx.get_node_attributes(mst, 'pos')
+nx.draw(mst, pos, with_labels=True)
+labels = nx.get_edge_attributes(mst, 'weight')
+nx.draw_networkx_edge_labels(mst, pos, edge_labels=labels)
+# plt.show()
+print(mst)
+print(nx.tree.branching_weight(mst))
+
+
 # Leaf Constrained Minimum Spannning Tree
-T = LCMST(G, 5)
+T = LCMST(G, 3)
 print(T)
 print(find_leaf(T))
 plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +

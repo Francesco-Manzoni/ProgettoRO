@@ -41,7 +41,7 @@ def nearest_node(V, w):
 
 
 def LCMST(V, k):
-    T = nx.minimum_spanning_tree(V)
+    T = nx.minimum_spanning_tree(V, algorithm='prim')
 
     while len(find_leaf(T)) < k:
         L = find_leaf(T)
@@ -109,8 +109,9 @@ G.add_edge(5, 6, weight=6)
 G.add_edge(5, 7, weight=50)
 # 6
 G.add_edge(6, 7, weight=7) """
-positions = {1:(4,1), 2:(2,1),3:(3,3),4:(6, 1),5:(7, 4),6:(5, 4),7:(4, 6)}
-all_nodes= [1,2,3,4,5,6,7]
+positions = {1: (4, 1), 2: (2, 1), 3: (3, 3), 4: (
+    6, 1), 5: (7, 4), 6: (5, 4), 7: (4, 6)}
+all_nodes = [1, 2, 3, 4, 5, 6, 7]
 G = nx.Graph()
 G.add_node(1, pos=(4, 1))
 G.add_node(2, pos=(2, 1))
@@ -162,29 +163,19 @@ labels = nx.get_edge_attributes(G, 'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 plt.show()
 
-""" # MST
-mst = nx.minimum_spanning_tree(G)
-pos = nx.get_node_attributes(mst, 'pos')
-nx.draw(mst, pos, with_labels=True)
-labels = nx.get_edge_attributes(mst, 'weight')
-nx.draw_networkx_edge_labels(mst, pos, edge_labels=labels)
-# plt.show()
-print(mst)
-print(nx.tree.branching_weight(mst)) """
 
-
-T = LCMST(G, 4)
+""" T = LCMST(G, 4)
 print(T)
-print(find_leaf(T))
+print(find_leaf(T)) """
 
 """ for element in all_nodes:
     if element not in find_leaf(T):
         del positions[element] """
 
 pos = nx.get_node_attributes(T, 'pos')
-nx.draw(T, pos = positions, with_labels=True)
+nx.draw(T, pos=positions, with_labels=True)
 labels = nx.get_edge_attributes(T, 'weight')
-nx.draw_networkx_edge_labels(T,pos = positions, edge_labels=labels)
+nx.draw_networkx_edge_labels(T, pos=positions, edge_labels=labels)
 plt.show()
 
 

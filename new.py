@@ -8,8 +8,11 @@ import random
 import heapq
 
 # ------------------------------
+
+
 def xor(x, y):
     return bool((x and not y) or (not x and y))
+
 
 def find_leaf(g):
     leaf_nodes = []
@@ -35,6 +38,7 @@ def nearest_node(V, w):
                 u = v
     return u
 
+
 def shortest_connection_leaves(N):
     min_weight = float('inf')
 
@@ -42,49 +46,47 @@ def shortest_connection_leaves(N):
         for w in find_leaf(N):
             if f != w:
 
-                #calcolo il peso della connessione tra due foglie
+                # calcolo il peso della connessione tra due foglie
                 peso_tmp = G.get_edge_data(f, w)['weight']
 
-                #devo verificare che il nodo da cui stacco il collegamento non diventi un nodo foglia
-                #ovvero è conncesso ad almeno a 2 nodi
+                # devo verificare che il nodo da cui stacco il collegamento non diventi un nodo foglia
+                # ovvero è conncesso ad almeno a 2 nodi
 
-
-                node_con_f = nearest_node(N,f)
+                node_con_f = nearest_node(N, f)
                # verifico se il nodo adiacente è connesso almeno a 2 nodi
                 if (nx.degree(N, node_con_f) > 2):
-                    peso_partenza = peso_partenza = G.get_edge_data(f,node_con_f)['weight']
-                else: 
+                    peso_partenza = peso_partenza = G.get_edge_data(f, node_con_f)[
+                        'weight']
+                else:
                     peso_partenza = 0
-                
-               #--------------------------------------
-                node_con_w = nearest_node(N,w)
+
+               # --------------------------------------
+                node_con_w = nearest_node(N, w)
                 # verifico se il nodo adiacente è connesso almeno a 2 nodi
                 if (nx.degree(N, node_con_w) > 2):
-                    peso_arrivo = G.get_edge_data(f,node_con_w)['weight']
+                    peso_arrivo = G.get_edge_data(f, node_con_w)['weight']
                 else:
                     peso_arrivo = 0
-                if(xor(peso_arrivo != 0,peso_partenza !=0)):
-                    peso_tot = peso_tmp - max(peso_partenza,peso_arrivo)
+                if(peso_arrivo != 0 or peso_partenza != 0):
+                    peso_tot = peso_tmp - max(peso_partenza, peso_arrivo)
                     if(peso_tot < min_weight):
-                        min_weight = peso_tot 
+                        min_weight = peso_tot
                         nodo_partenza = f
                         nodo_arrivo = w
 
-                        if(peso_partenza >= peso_arrivo ):
-                             to_rem_start = nodo_partenza
-                             to_remove = nearest_node(N,nodo_partenza)
+                        if(peso_partenza >= peso_arrivo):
+                            to_rem_start = nodo_partenza
+                            to_remove = nearest_node(N, nodo_partenza)
                         else:
-                             to_rem_start = nodo_arrivo
-                             to_remove = nearest_node(N,nodo_arrivo)
-                        
-                    
-                    
+                            to_rem_start = nodo_arrivo
+                            to_remove = nearest_node(N, nodo_arrivo)
+
     peso = G.get_edge_data(nodo_partenza, nodo_arrivo)['weight']
     N.add_edge(nodo_partenza, nodo_arrivo, weight=peso)
     N.remove_edge(to_rem_start, to_remove)
-    
-    
+
     return N
+
 
 def plotGraph(Grafo, testo):
     pos = nx.get_node_attributes(Grafo, 'pos')
@@ -95,24 +97,22 @@ def plotGraph(Grafo, testo):
     plt.show()
     print(nx.tree.branching_weight(Grafo))
 
-def Kmin(Grafo,k):
-     T = nx.minimum_spanning_tree(Grafo, algorithm='prim')
-     num_leaves = len(find_leaf(T))
-     plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
-    
-     while (num_leaves > k):
-        #ricerco la connessione che ha il valore minore e collego gli archi
-        T = shortest_connection_leaves(T)   
-       
+
+def Kmin(Grafo, k):
+    T = nx.minimum_spanning_tree(Grafo, algorithm='prim')
+    num_leaves = len(find_leaf(T))
+    plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
+
+    while (num_leaves > k):
+        # ricerco la connessione che ha il valore minore e collego gli archi
+        T = shortest_connection_leaves(T)
+
         num_leaves = len(find_leaf(T))
-        print(num_leaves) 
-        
+        print(num_leaves)
+
         plotGraph(T, 'inizio, numero di foglie :' + str(num_leaves))
-     
-     return T
 
-
-
+    return T
 
 
 positions = {1: (5, 2), 2: (2, 1), 3: (3, 3), 4: (
@@ -177,11 +177,9 @@ G.add_edge(8, 1, weight=10) """
 plotGraph(G, 'Grafo iniziale')
 
 
-
-
 # Leaf Constrained Minimum Spannning Tree
 
-T = Kmin(G,3)
+T = Kmin(G, 3)
 print(T)
 print(find_leaf(T))
 plotGraph(T, 'Finale con foglie ' + str(len(find_leaf(T))) +
