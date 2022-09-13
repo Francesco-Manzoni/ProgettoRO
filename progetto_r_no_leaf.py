@@ -56,11 +56,15 @@ def xor(x, y):
     return bool((x and not y) or (not x and y))
 
 
-def find_leaf(g):
+def find_leaf(g,r):
     leaf_nodes = []
     for node in g.nodes():
         if nx.degree(g, node) == 1:
             leaf_nodes.append(node)
+
+    if r in leaf_nodes:
+        leaf_nodes.remove(r)
+
     return leaf_nodes
 
 
@@ -81,11 +85,11 @@ def nearest_node(V, w):
     return u
 
 
-def shortest_connection_leaves(N):
+def shortest_connection_leaves(N,r):
     min_weight = float('inf')
 
-    for f in find_leaf(N):
-        for w in find_leaf(N):
+    for f in find_leaf(N,r):
+        for w in find_leaf(N,r):
             if f != w:
 
                 # calcolo il peso della connessione tra due foglie
@@ -158,14 +162,14 @@ def plotGraph(Grafo, testo):
 def Kmin(Grafo, k, start_v):
     # T = nx.minimum_spanning_tree(Grafo, algorithm='prim')
     T = nx.Graph(mst_prim(Grafo, start_v))
-    num_leaves = len(find_leaf(T))
+    num_leaves = len(find_leaf(T,start_v))
     plotGraph(T, 'MST di radice ' + str(start_v))
 
     while (num_leaves > k):
         # ricerco la connessione che ha il valore minore e collego gli archi
-        T = shortest_connection_leaves(T)
+        T = shortest_connection_leaves(T,start_v)
 
-        num_leaves = len(find_leaf(T))
+        num_leaves = len(find_leaf(T,start_v))
         print(num_leaves)
 
         plotGraph(T, 'Aggiornamento, numero di foglie: ' + str(num_leaves))
@@ -234,8 +238,6 @@ G.add_edge(8, 1, weight=10)
 
 plotGraph(G, 'Grafo iniziale')
 
-#################
-
 
 
 
@@ -243,7 +245,11 @@ plotGraph(G, 'Grafo iniziale')
 # Leaf Constrained Minimum Spannning Tree
 
 # def Kmin(Grafo, k, start_v):
-T = Kmin(G, 3, 2)
+radice = 3
+k = 3
+T = Kmin(G, k, radice)
 print(T.adj)
 
-plotGraph(T, 'Finale, numero di foglie ' + str(len(find_leaf(T))) +  ', costo totale: ' + str(nx.tree.branching_weight(T)))
+plotGraph(T, 'Finale, numero di foglie ' + str(len(find_leaf(T,radice)))+  ', costo totale: ' + str(nx.tree.branching_weight(T)))
+
+
